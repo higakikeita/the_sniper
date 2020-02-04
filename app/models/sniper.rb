@@ -1,0 +1,2 @@
+class Sniper < ApplicationRecord
+end

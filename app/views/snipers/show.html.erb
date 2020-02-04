@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @sniper.title %>
+</p>
+
+<p>
+  <strong>Language:</strong>
+  <%= @sniper.language %>
+</p>
+
+<p>
+  <strong>Contents:</strong>
+  <%= @sniper.contents %>
+</p>
+
+<%= link_to 'Edit', edit_sniper_path(@sniper) %> |
+<%= link_to 'Back', snipers_path %>
