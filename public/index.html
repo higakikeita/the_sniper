@@ -49,7 +49,7 @@
 
             <v-card-actions>
               <!-- 説明 3.13 -->
-              <v-btn flat color="red">Update</v-btn>
+              <v-btn flat color="red" v-on:click="togglePutModal(sniper.id)">Update</v-btn>
               <v-btn flat color="gray">Delete</v-btn>
             </v-card-actions>
           </v-card>
@@ -87,6 +87,39 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog v-model="dialogPutFlag" width="800" persistent>
+        <v-card>
+          <v-card-title class="headline red lighten-3 white--text" primary-title>
+            Edit Form
+          </v-card-title>
+
+          <v-text-field v-model="putTitle" label="Snippet Title" required style='margin:20px; margin-top:30px'>
+          </v-text-field>
+          <v-flex d-flex>
+            <v-text-field v-model="putLanguage" label="Language" required
+              style='margin:20px; margin-bottom:0px; margin-left:20px'></v-text-field>
+          </v-flex>
+          <v-card-text>
+            <p>Snippet</p>
+            <div style='width:100%;'>
+              <textarea style='width:100%; height:300px; background-color:#efefef; padding:3px'
+                v-model='putContents'></textarea>
+            </div>
+          </v-card-text>
+
+          <v-divider></v-divider>
+
+          <v-card-actions>
+            <v-btn color="#grey lighten-4" flat v-on:click="togglePutModal">
+              Cancel
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn color="red" flat v-on:click="putSnippet">
+              Update Snippet
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
   </v-app>
   <script>
@@ -101,6 +134,10 @@
           postTitle: '',
           postLanguage: '',
           postContents: '',
+          dialogPutFlag: false,
+          putTitle: '',
+          putLanguage: '',
+          putContents: '',
         }
       },
       mounted() {
@@ -129,6 +166,26 @@
             );
 
           this.dialogPostFlag = !this.dialogPostFlag // 説明 3.22
+        },
+        togglePutModal: function (id) {
+          axios.get('/snipers/' + id + '.json')
+            .then(response => {
+              this.putTitle = response.data.title
+              this.putLanguage = response.data.language
+              this.putContents = response.data.contents
+            }
+            );
+
+          this.id = id
+          this.dialogPutFlag = !this.dialogPutFlag
+        },
+        putSnippet: function () {
+          axios.put('/snipers/' + this.id + '.json', { title: this.putTitle, language: this.putLanguage, contents: this.putContents })
+            .then(response => {
+              this.listSnippet();
+            }
+            );
+          this.dialogPutFlag = !this.dialogPutFlag
         },
       }
     })
