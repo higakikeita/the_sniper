@@ -35,15 +35,15 @@
           </div>
         </v-flex>
         <v-flex xs7>
-          <v-card style="margin-top:10px" v-for="snippet in snippetList">
+          <v-card style="margin-top:10px" v-for="sniper in snippetList">
             <!-- 説明 3.11 -->
             <v-card-title primary-title>
               <!-- 説明 3.11 -->
-              <h3 class="headline"> {{ snippet.title }} </h3>
+              <h3 class="headline"> {{ sniper.title }} </h3>
             </v-card-title>
             <div style="margin: 10px 20px;">
               <textarea
-                style='width:100%; height:300px; background-color:#efefef; padding:3px'> {{ snippet.contents }} </textarea>
+                style='width:100%; height:300px; background-color:#efefef; padding:3px'> {{ sniper.contents }} </textarea>
               <!-- 説明 3.12 -->
             </div>
 
@@ -91,7 +91,7 @@
   </v-app>
   <script>
 
-    new Vue({
+    const app = new Vue({
       el: '#app',
       data() {
         return {
@@ -119,7 +119,7 @@
           this.dialogPostFlag = !this.dialogPostFlag
         },
         postSnippet: function () {
-          axios.post('/snippets.json', { title: this.postTitle, language: this.postLanguage, contents: this.postContents })
+          axios.post('/snipers.json', { title: this.postTitle, language: this.postLanguage, contents: this.postContents })
             .then(response => {
               this.listSnippet();  // 説明 3.21
               this.postTitle = ''
