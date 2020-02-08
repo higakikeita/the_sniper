@@ -30,7 +30,8 @@
             <!-- 説明 3.10 -->
             <h2>Snippets Shortcut</h2>
             <ul>
-              <li>Snippet Title</li>
+              <li v-for="sniper in snippetList"><span id='name' v-on:click="goElem(sniper.id)">[{{ sniper.language }}]
+                  {{ sniper.title }}</span></li> <!-- 説明 3.23 -->
             </ul>
           </div>
         </v-flex>
@@ -38,6 +39,8 @@
           <v-card style="margin-top:10px" v-for="sniper in snippetList">
             <!-- 説明 3.11 -->
             <v-card-title primary-title>
+
+              <a v-bind:id='sniper.id'></a>
               <!-- 説明 3.11 -->
               <h3 class="headline"> {{ sniper.title }} </h3>
             </v-card-title>
@@ -222,6 +225,9 @@
         toggleDeleteModal: function (id) {
           this.id = id
           this.dialogDeleteFlag = !this.dialogDeleteFlag
+        },
+        goElem: function (id) {
+          document.getElementById(id).scrollIntoView(true) // 説明 3.25
         },
       }
     })
