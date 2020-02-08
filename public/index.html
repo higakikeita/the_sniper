@@ -73,6 +73,8 @@
           <v-flex d-flex>
             <v-text-field v-model="postLanguage" label="Language" required
               style='margin:20px; margin-bottom:0px; margin-left:20px'></v-text-field>
+            <v-select v-model='postLanguage' :items="languagesForEdit" label="Select from history"
+              style='margin:20px; margin-bottom:0px;margin-left: 0px'></v-select>
           </v-flex> <!-- 説明 3.19 -->
           <v-card-text>
             <p>Snippet</p>
@@ -158,6 +160,7 @@
           snippetList: ['', ''],
           allData: ['', ''],
           languages: ['All'],
+          languagesForEdit: [],
           language: 'ALL',
           dialogPostFlag: false,
           postTitle: '',
