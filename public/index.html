@@ -27,6 +27,8 @@
         <v-flex xs5>
           <!-- 説明 3.9 -->
           <div style="margin:10px">
+            <h2>Select Language</h2>
+            <v-select v-model='language' :items="languages" label="Language" v-on:change="abstruct"></v-select>
             <!-- 説明 3.10 -->
             <h2>Snippets Shortcut</h2>
             <ul>
@@ -155,6 +157,8 @@
         return {
           snippetList: ['', ''],
           allData: ['', ''],
+          languages: ['All'],
+          language: 'ALL',
           dialogPostFlag: false,
           postTitle: '',
           postLanguage: '',
@@ -178,8 +182,20 @@
             .then(response => {
               this.allData = response.data
               this.snippetList = this.allData
+              this.listLanguages(); // 説明 4.2
+              this.abstruct(); // 説明 4.2
+            });
+        },
+        listLanguages: function () {
+          this.languages = []
+          this.languagesForEdit = []
+          this.languages.push('ALL')
+          for (i = 0; i < this.allData.length; i++) {
+            if (this.languages.indexOf(this.allData[i].language) == -1) { // 説明 4.3
+              this.languages.push(this.allData[i].language)
+              this.languagesForEdit.push(this.allData[i].language)
             }
-            );
+          }
         },
         togglePostModal: function () {
           this.dialogPostFlag = !this.dialogPostFlag
@@ -234,6 +250,21 @@
         goTop: function () {
           document.getElementById("app").scrollIntoView(true) // 説明 3.26
         },
+        abstruct: function () {
+          if (this.language == 'ALL') { // 説明 4.4
+            this.snippetList = []
+            for (i = 0; i < this.allData.length; i++) { // 説明 4.5
+              this.snippetList.push(this.allData[i]) // 説明 4.5
+            }
+          } else if (this.language != '') {
+            this.snippetList = []
+            for (i = 0; i < this.allData.length; i++) { // 説明 4.5
+              if (this.allData[i].language == this.language) { // 説明 4.6
+                this.snippetList.push(this.allData[i]) // 説明 4.5
+              }
+            }
+          }
+        }
       }
     })
 
