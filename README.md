@@ -1,4 +1,7 @@
 # README
+# The Sniper
+## 最強のコピペツールです
+###　言語別に整理出来ます
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
