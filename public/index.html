@@ -37,7 +37,10 @@
             </ul>
           </div>
         </v-flex>
-        <v-flex xs7>
+        <v-flex xs7 style='margin:10px'>
+          <h2>Search Snippet</h2>
+          <v-text-field v-model="searchWord" v-on:keyup="abstruct" label="Input Keyword" style='margin-top:4px'>
+          </v-text-field>
           <v-card style="margin-top:10px" v-for="sniper in snippetList">
             <!-- 説明 3.11 -->
             <v-card-title primary-title>
@@ -174,6 +177,7 @@
           deleteTitle: '',
           deleteLanguage: '',
           deleteContents: '',
+          searchWord: ''
         }
       },
       mounted() {
@@ -257,13 +261,17 @@
           if (this.language == 'ALL') { // 説明 4.4
             this.snippetList = []
             for (i = 0; i < this.allData.length; i++) { // 説明 4.5
-              this.snippetList.push(this.allData[i]) // 説明 4.5
+              if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) { // 説明 4.7
+                this.snippetList.push(this.allData[i])
+              }
             }
           } else if (this.language != '') {
             this.snippetList = []
             for (i = 0; i < this.allData.length; i++) { // 説明 4.5
               if (this.allData[i].language == this.language) { // 説明 4.6
-                this.snippetList.push(this.allData[i]) // 説明 4.5
+                if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) { // 説明 4.7
+                  this.snippetList.push(this.allData[i])
+                }
               }
             }
           }
