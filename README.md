@@ -1,7 +1,9 @@
 # README
 # The Sniper
 ## 最強のコピペツールです
-###　言語別に整理出来ます
+### 言語別に整理出来ます
+
+[![Image from Gyazo](https://i.gyazo.com/fd956bb3365bf9e9e81369f29b5462c6.png)](https://gyazo.com/fd956bb3365bf9e9e81369f29b5462c6)
 
 This README would normally document whatever steps are necessary to get the
 application up and running.
