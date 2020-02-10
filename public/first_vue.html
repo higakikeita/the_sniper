@@ -10,26 +10,26 @@
 
 <body>
   <div id="app">
-    <!-- 説明 2.1 -->
-    <p>{{ message }}</p> <!-- 説明 2.2 -->
+
+    <p>{{ message }}</p>
 
     <p>{{ message2 }}</p>
     <button v-on:click="changeMsg">Change</button>
     <ul>
-      <li v-for="data in list">{{ data.title }}</li> <!-- 説明 2.19 -->
+      <li v-for="data in list">{{ data.title }}</li>
     </ul>
     <button v-on:click="listSnippet">listSnippet</button>
     <div>
-      <input v-model="title" placeholder="title"> <!-- 説明 2.23 -->
+      <input v-model="title" placeholder="title">
       <input v-model="language" placeholder="language">
       <input v-model="contents" placeholder="contents">
     </div>
     <button v-on:click="postSnippet">postSnippet</button>
   </div>
   <script>
-    new Vue({ // 説明 2.3
-      el: "#app", // 説明 2.4
-      data() { // 説明 2.5
+    new Vue({
+      el: "#app",
+      data() {
         return {
           message: "Hello Vue!",
           message2: 'Hoge',
@@ -39,32 +39,32 @@
           contents: 'contents'
         }
       },
-      mounted() {  // 説明 2.7
-        this.setMsg();  // 説明 2.8
+      mounted() {
+        this.setMsg();
       },
-      methods: { // 説明 2.9
-        setMsg: function () { // 説明 2.10
-          this.message = 'Set Message'; // 説明 2.11
+      methods: {
+        setMsg: function () {
+          this.message = 'Set Message';
         },
-        changeMsg: function () { // 説明 2.13
+        changeMsg: function () {
           this.message = 'Changed Message'
-          axios.get('/snipers.json') // 説明 2.16
-            .then(response => ( // 説明 2.17
-              this.message2 = response.data[0]['title'] // 説明 2.18
+          axios.get('/snipers.json')
+            .then(response => (
+              this.message2 = response.data[0]['title']
             )
             );
         },
         listSnippet: function () {
           axios.get('/snipers.json')
             .then(response => (
-              this.list = response.data // 説明 2.21
+              this.list = response.data
             )
             );
         },
         postSnippet: function () {
-          axios.post('/snipers.json', { title: 'title', language: 'Ruby', contents: 'contents' }) // 説明 2.21
+          axios.post('/snipers.json', { title: 'title', language: 'Ruby', contents: 'contents' })
             .then(response => (
-              this.listSnippet()  // 説明 2.22
+              this.listSnippet()
             )
             );
         }

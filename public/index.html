@@ -37,23 +37,22 @@
           <v-text-field v-model="searchWord" v-on:keyup="abstruct" label="Input Keyword" style='margin-top:4px'>
           </v-text-field>
           <v-card style="margin-top:10px" v-for="sniper in snippetList">
-            <!-- 説明 3.11 -->
             <v-card-title primary-title>
 
 
               <a v-bind:id='sniper.id'></a>
-              <!-- 説明 3.11 -->
+
               <h3 class="headline"> {{ sniper.title }} </h3>
             </v-card-title>
             <div style="margin: 10px 20px;">
               <div v-html='showdown.makeHtml(sniper.contents)'></div>
               <textarea
                 style='width:100%; height:300px; background-color:#efefef; padding:3px'> {{ sniper.contents }} </textarea>
-              <!-- 説明 3.12 -->
+
             </div>
 
             <v-card-actions>
-              <!-- 説明 3.13 -->
+
               <v-btn flat color="red" v-on:click="togglePutModal(sniper.id)">Update</v-btn>
               <v-btn flat color="gray" v-on:click="toggleDeleteModal(sniper.id)">Delete</v-btn>
               <v-spacer></v-spacer>
@@ -63,24 +62,24 @@
         </v-flex>
       </v-layout>
       <v-dialog v-model="dialogPostFlag" width="800" persistent>
-        <!-- 説明 3.18 -->
+
         <v-card>
           <v-card-title class="headline black lighten-4 white--text" primary-title>
             Create Form
           </v-card-title>
           <v-text-field v-model="postTitle" label="Snippet Title" required style='margin:20px; margin-top:30px'>
-          </v-text-field> <!-- 説明 3.19 -->
+          </v-text-field>
           <v-flex d-flex>
             <v-text-field v-model="postLanguage" label="Language" required
               style='margin:20px; margin-bottom:0px; margin-left:20px'></v-text-field>
             <v-select v-model='postLanguage' :items="languagesForEdit" label="Select from history"
               style='margin:20px; margin-bottom:0px;margin-left: 0px'></v-select>
-          </v-flex> <!-- 説明 3.19 -->
+          </v-flex>
           <v-card-text>
             <p>Snippet</p>
             <div style='width:100%;'>
               <textarea style='width:100%; height:300px; background-color:#efefef; padding:3px'
-                v-model='postContents'></textarea> <!-- 説明 3.19 -->
+                v-model='postContents'></textarea>
             </div>
           </v-card-text>
           <v-divider></v-divider>
@@ -179,17 +178,17 @@
       },
       mounted() {
         this.listSnippet();
-        options = { headerLevelStart: 3, omitExtraWLInCodeBlocks: true, tables: true, simpleLineBreaks: true, simplifiedAutoLink: true } // 説明 4.8
-        this.showdown = new showdown.Converter(options) // 説明 4.8
+        options = { headerLevelStart: 3, omitExtraWLInCodeBlocks: true, tables: true, simpleLineBreaks: true, simplifiedAutoLink: true }
+        this.showdown = new showdown.Converter(options)
       },
       methods: {
-        listSnippet: function () { // 説明 3.17
+        listSnippet: function () {
           axios.get('/snipers.json')
             .then(response => {
               this.allData = response.data
               this.snippetList = this.allData
-              this.listLanguages(); // 説明 4.2
-              this.abstruct(); // 説明 4.2
+              this.listLanguages();
+              this.abstruct();
             });
         },
         listLanguages: function () {
@@ -197,7 +196,7 @@
           this.languagesForEdit = []
           this.languages.push('ALL')
           for (i = 0; i < this.allData.length; i++) {
-            if (this.languages.indexOf(this.allData[i].language) == -1) { // 説明 4.3
+            if (this.languages.indexOf(this.allData[i].language) == -1) {
               this.languages.push(this.allData[i].language)
               this.languagesForEdit.push(this.allData[i].language)
             }
@@ -209,14 +208,14 @@
         postSnippet: function () {
           axios.post('/snipers.json', { title: this.postTitle, language: this.postLanguage, contents: this.postContents })
             .then(response => {
-              this.listSnippet();  // 説明 3.21
+              this.listSnippet();
               this.postTitle = ''
               this.postLanguage = ''
               this.postContents = ''
             }
             );
 
-          this.dialogPostFlag = !this.dialogPostFlag // 説明 3.22
+          this.dialogPostFlag = !this.dialogPostFlag
         },
         togglePutModal: function (id) {
           axios.get('/snipers/' + id + '.json')
@@ -251,24 +250,24 @@
           this.dialogDeleteFlag = !this.dialogDeleteFlag
         },
         goElem: function (id) {
-          document.getElementById(id).scrollIntoView(true) // 説明 3.25
+          document.getElementById(id).scrollIntoView(true)
         },
         goTop: function () {
-          document.getElementById("app").scrollIntoView(true) // 説明 3.26
+          document.getElementById("app").scrollIntoView(true)
         },
         abstruct: function () {
-          if (this.language == 'ALL') { // 説明 4.4
+          if (this.language == 'ALL') {
             this.snippetList = []
-            for (i = 0; i < this.allData.length; i++) { // 説明 4.5
-              if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) { // 説明 4.7
+            for (i = 0; i < this.allData.length; i++) {
+              if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
                 this.snippetList.push(this.allData[i])
               }
             }
           } else if (this.language != '') {
             this.snippetList = []
-            for (i = 0; i < this.allData.length; i++) { // 説明 4.5
-              if (this.allData[i].language == this.language) { // 説明 4.6
-                if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) { // 説明 4.7
+            for (i = 0; i < this.allData.length; i++) {
+              if (this.allData[i].language == this.language) {
+                if ((this.allData[i].contents.indexOf(this.searchWord) !== -1) || (this.allData[i].title.indexOf(this.searchWord) !== -1) || (this.allData[i].language.indexOf(this.searchWord) !== -1)) {
                   this.snippetList.push(this.allData[i])
                 }
               }
